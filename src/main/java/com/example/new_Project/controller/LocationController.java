@@ -18,7 +18,7 @@ public class LocationController {
     @Autowired
     LocationService localService;
 
-    // Display all locations initially
+   
     @GetMapping("/locations")
     public String getAllLocations(ModelMap model) {
         List<Location> locations = localService.getAllLocations();
@@ -26,19 +26,12 @@ public class LocationController {
         return "locations";
     }
 
-    // Search locations by zone
+   
     @GetMapping("/searchByZone")
     public String searchByZone(@RequestParam("zone") String zone, ModelMap model) {
-        // Log the zone to verify the parameter is being passed correctly
         System.out.println("Searching for zone: " + zone);
-
-        // Call service to search by zone
         List<Location> locations = localService.searchLocationsByZone(zone);
-        
-        // Add the results to the model
         model.addAttribute("locations", locations);
-
-        // Return the same JSP view
         return "locations";
     }
 }

@@ -75,7 +75,7 @@
             <label for="zone">Search by Zone:</label>
             <input type="text" id="zone" name="zone" required />
             <input type="submit" value="Search" />
-        </form>
+        </fortm>
     </div>
 
     <!-- Display locations in a table -->

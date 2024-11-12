@@ -17,8 +17,6 @@ import com.example.new_Project.DAO.userRepositoryy;
 import com.example.new_Project.Entity.User;
 import com.example.new_Project.service.UserService;
 
-
-
 @Controller
 public class LoginController {
     
@@ -52,7 +50,7 @@ public class LoginController {
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable int id, ModelMap map) {
         userRepositoryy.deleteById(id);
-        map.addAttribute("message", "User deleted successfully.");
+        map.addAttribute("deletemessage", "User deleted successfully.");
         return "redirect:/fetchAllRecords";
     }
     
@@ -102,10 +100,8 @@ public class LoginController {
 	        return List.of(user);  
 	    } else {
 	        return List.of(); 
+	    
 	    }
 	}
-
-	
-
 
 }

@@ -9,7 +9,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.new_Project.Entity.User;
 
 
-
 @Service
 public interface UserService {
 	
