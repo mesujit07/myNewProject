@@ -1,9 +1,13 @@
 package com.example.new_Project.ServiceImpl;
 
+import java.net.http.HttpRequest;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -17,30 +21,44 @@ public class UserServiceImpl implements UserService {
 	userRepositoryy userRepositoryy;
 
 	@Override
-	public String setlogin(String username, String password, RedirectAttributes redirectAttributes) {
+	public String setlogin(String username, String password, RedirectAttributes redirectAttributes,HttpSession session,ModelMap map) {
 		User user = userRepositoryy.findByUsername(username);
 
 		if (user != null && user.getPassword().equals(password)) {
+			session.removeAttribute("errorlogin");
+			session.setAttribute("username", username);
+			session.setAttribute("message", "Welcome to BCITS, " + username + "!");
 			redirectAttributes.addFlashAttribute("message", "Welcome to BCITS, " + username + "!");
 			return "redirect:/fetchAllRecords";
 		} else {
-			redirectAttributes.addFlashAttribute("error", "Invalid username or password.");
+			map.addAttribute("errorlogin", "Invalid username or password.");
 			return "login";
 		}
 	}
 
 	@Override
 	public String setregister(String username, String password, String email, ModelMap map) {
-		if (!username.equals("") && !password.equals("")) {
+		List<User> users = handleUserRequest();
+		boolean usernameExists = false;
+
+		for (User user : users) {
+			if (user.getUsername().equals(username)) {
+				usernameExists = true;
+				break;
+			}
+		}
+		if (!usernameExists) {
 			User user = new User();
 			user.setName(username);
 			user.setPassword(password);
 			user.setEmail(email);
 			userRepositoryy.save(user);
-			map.addAttribute("info", "Congratulations, " + username + "!");
+			map.addAttribute("info", "Congratulations, " + username + "! You have successfully registered.");
+
 			return "login";
 		} else {
-			map.addAttribute("error", "Invalid username or password.");
+
+			map.addAttribute("errorregister","The username " + username + " already exists. Please choose a different one.");
 			return "register";
 		}
 	}
@@ -57,11 +75,11 @@ public class UserServiceImpl implements UserService {
 		if (user != null) {
 			user.setPassword(password);
 			userRepositoryy.save(user);
-			map.addAttribute("info", "Password updated successfully!");
+			map.addAttribute("resetinfo", "Password updated successfully!");
 			return "login";
 
 		} else {
-			map.addAttribute("error", "User not found.");
+			map.addAttribute("reseterror", "User not found.");
 			return "login";
 		}
 

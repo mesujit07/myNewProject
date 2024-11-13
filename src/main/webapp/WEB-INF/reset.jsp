@@ -5,74 +5,134 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <style>
     body {
-        font-family: 'Roboto', sans-serif;
-        background: linear-gradient(120deg, #e0e0e0, #f5f5f5);
-        margin: 0;
-        height: 100vh;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: 'Poppins', sans-serif;
     }
+
     .container {
-        background: white;
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        width: 100%;
-        max-width: 400px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        width: 320px;
         text-align: center;
+        backdrop-filter: blur(10px);
     }
+
     .reset-icon {
-        width: 120px;
+        width: 80px;
+        height: 80px;
         margin-bottom: 20px;
+        border-radius: 50%;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
     }
+
+    .reset-icon:hover {
+        transform: scale(1.05);
+    }
+
     h1 {
-        color: #2196F3;
-        margin-bottom: 30px;
+        color: #2d3436;
+        margin: 10px 0 25px 0;
+        font-size: 24px;
+        font-weight: 600;
     }
+
+    label {
+        display: block;
+        text-align: left;
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
     input[type="text"], input[type="password"] {
         width: 100%;
-        padding: 12px;
-        margin: 8px 0;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
-    input[type="submit"] {
-        background: #2196F3;
-        color: white;
-        padding: 12px 24px;
+        padding: 12px 2px;
+        margin: 8px 0 25px 0;
         border: none;
-        border-radius: 4px;
+        border-bottom: 2px solid #e0e0e0;
+        border-radius: 0;
+        box-sizing: border-box;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: transparent;
+    }
+
+    input[type="text"]:focus, input[type="password"]:focus {
+        border-bottom: 2px solid #6c5ce7;
+        outline: none;
+        box-shadow: none;
+    }
+
+    input[type="text"]::placeholder, input[type="password"]::placeholder {
+        color: #999;
+        font-size: 13px;
+        transition: opacity 0.3s ease;
+    }
+
+    input[type="text"]:focus::placeholder, input[type="password"]:focus::placeholder {
+        opacity: 0.5;
+    }
+
+    input[type="submit"] {
+        background: linear-gradient(45deg, #6c5ce7, #a367fc);
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 12px;
         cursor: pointer;
-        width: 100%;
         font-size: 16px;
+        font-weight: 500;
+        width: 100%;
         margin-top: 20px;
-        transition: background 0.3s ease;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+
     input[type="submit"]:hover {
-        background: #1976D2;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
     }
+
+    .error {
+        color: #ff7675;
+        font-size: 13px;
+        margin: 8px 0;
+    }
+
+    .success {
+        color: #00b894;
+        font-size: 13px;
+        margin: 8px 0;
+    }
+
     a {
-        color: #2196F3;
+        color: #6c5ce7;
         text-decoration: none;
-        margin-top: 15px;
+        font-size: 14px;
+        transition: color 0.3s ease;
+        margin-top: 20px;
         display: inline-block;
     }
+
     a:hover {
-        text-decoration: underline;
+        color: #a367fc;
     }
-    .error {
-        color: #f44336;
-        margin-top: 10px;
-    }
-    .success {
-        color: #4CAF50;
-        margin-top: 10px;
+
+    span {
+        font-size: 14px;
+        color: #666;
     }
 </style>
 <body>
@@ -90,17 +150,11 @@
             <input type="submit" value="Reset Password">
         </form>
 
+        <p class="error">${error != null ? reseterror : ''}</p>
+        <p class="success">${message != null ? resetinfo : ''}</p>
 
-        <!-- Display dynamic messages -->
-        <p style="color: red;">
-            ${error != null ? error : ''}
-        </p>
-        <h1 style="color: green;">
-            ${message != null ? message : ''}
-        </h1>
         <span>Remember your password? </span>
         <a href="<%= request.getContextPath() %>/login">Login here</a>
-
     </div>
 </body>
 </html>

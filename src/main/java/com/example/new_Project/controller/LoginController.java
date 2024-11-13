@@ -2,8 +2,11 @@ package com.example.new_Project.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,20 +23,20 @@ import com.example.new_Project.service.UserService;
 @Controller
 public class LoginController {
     
-   @Autowired
-  UserService userService;
-   
-   @Autowired
-   userRepositoryy userRepositoryy;
-    
+	   @Autowired
+	  UserService userService;
+	   
+	   @Autowired
+	   userRepositoryy userRepositoryy;
+	    
     @GetMapping("/login")
     public String loadHome(ModelMap map) {
         return "login";
     }
 
     @PostMapping("/login")
-    public String handleLogin(@RequestParam String username, @RequestParam String password, RedirectAttributes redirectAttributes) {
-        return userService.setlogin(username, password, redirectAttributes);
+    public String handleLogin(@RequestParam String username, @RequestParam String password, RedirectAttributes redirectAttributes,HttpSession session,ModelMap map) {
+        return userService.setlogin(username, password, redirectAttributes,session,map);
     }
     
 	@GetMapping("/reset")
@@ -103,5 +106,7 @@ public class LoginController {
 	    
 	    }
 	}
+	
+	
 
 }
