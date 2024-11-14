@@ -309,7 +309,20 @@ pageEncoding="ISO-8859-1"%>
 <div id="menu">
     <ul>
         <li><a href="javascript:void(0)" onclick="showUserRecords()"> <i class="fa-solid fa-database"></i>  <span style="margin-left: 10px;">Fetch All Records</a></li>
-       <li> <a href="/export/users"><i class="fa-solid fa-download"></i><span style="margin-left: 10px;">Export TO Excel</a></li>
+       <li> <a href="/export/users/excel"><i class="fa-solid fa-download"></i><span style="margin-left: 10px;">Export TO Excel</a></li>
+       <li> <a href="/export/users/pdf"><i class="fa-solid fa-file-pdf"></i><span style="margin-left: 10px;">Export TO PDF</a></li>
+       <li>
+			  <a href="/export/import/excel">
+			    <i class="fa-solid fa-file-excel"></i>
+			    <span style="margin-left: 10px;">Upload Excel</span>
+			  </a>
+			  <!-- Form to upload Excel file -->
+			  <form action="/export/upload-excel" method="POST" enctype="multipart/form-data" style="display: inline-block;">
+			    <input type="file" name="file" id="excelFile" required />
+			    <button type="submit">Upload Excel</button>
+			  </form>
+			</li>
+
     </ul>
 </div>
 
@@ -324,11 +337,24 @@ pageEncoding="ISO-8859-1"%>
 
     String message = (String) session.getAttribute("message");
     String username = (String) session.getAttribute("username");
-    %>
+%>
 
 	  <div class="welcome-message">
 	        <h1><%=message%></h1>
 	    </div>
+
+<% String successupload= (String) request.getAttribute("successupload"); %>
+<% if (successupload != null) { %>
+    <p style="color: green;"><%= successupload %></p>
+<% } %>
+
+
+<% String errorupload = (String) request.getAttribute("errorupload"); %>
+<% if (errorupload != null) { %>
+    <p style="color: red;"><%= errorupload %></p>
+<% } %>
+
+	    	
 	    
     <div id="recordsModal">
         <div class="modal-content">
